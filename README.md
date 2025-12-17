@@ -1,7 +1,7 @@
 # Relatório Técnico – Desafio 2: Cálculo de Distâncias Entre Cidades do Mundo
 
 **Grupo F**  
-Lucas Grohe e Carlos
+Lucas Grohe e Carlos Sperotto
 
 ---
 

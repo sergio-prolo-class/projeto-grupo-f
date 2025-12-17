@@ -1,209 +1,251 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/JtA1-Y7J)
-[![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=21730370)
-<table align="center" border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; border: 1px solid black;">
-  <tr>
-    <td style="border: 1px solid black; padding: 5px;">
-      <p style="text-align: center;">Bem vindos ao Repositório</p>
-      <p style="text-align: center;">IFSC-Codespace-ENG-ADS-JAVA-POO</p>
-      <p style="text-align: center;"><a href="https://rmayormartins.github.io/" target="_blank">Prof. Dr. Ramon Mayor Martins</a></p>
-    </td>
-  </tr>
-</table>
+# Relatório Técnico – Desafio 2: Cálculo de Distâncias Entre Cidades do Mundo
+
+**Grupo F**  
+Lucas Grohe e Carlos
 
 ---
 
-#### IFSC-Codespace-ENG-ADS-JAVA-POO
+## Descrição do Problema
 
-Bem-vindos ao Repositório [IFSC-Codespace-ENG-ADS-JAVA-POO](https://github.com/rmayormartins/IFSC-Codespace-ENG-ADS-JAVA-POO)
+O desafio proposto consiste no desenvolvimento de uma aplicação em Java capaz de calcular a maior distância geográfica entre duas cidades do mundo, considerando a curvatura da Terra. Para isso, utiliza-se a **Equação de Haverseno**, amplamente empregada em sistemas de geolocalização.
 
----
+O programa deve ler dados de cidades a partir de um arquivo CSV, recebido via redirecionamento de entrada padrão, no formato:
 
-#### Sobre o Repositório
-
-Este repositório contém exemplos e projetos desenvolvidos em Java como parte dos cursos Engenharia de Telecomunicações e Análise e Desenvolvimento de Sistemas no [IFSC - Instituto Federal de Santa Catarina](https://www.ifsc.edu.br/).
-
----
-
-#### Tech Stack
-
-[![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?logo=openjdk&logoColor=white)](#)
-[![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](#)
-[![GitHub Codespace](https://img.shields.io/badge/GitHub-Codespace-blue)](#)
-
----
-
-#### Configuração do Ambiente de Desenvolvimento
-
-Para começar a trabalhar neste projeto, siga os passos abaixo:
-
-##### 1. Fork do Repositório
-
-- Acesse este repositório no GitHub.
-- Clique no botão "Fork" no canto superior direito para criar uma cópia do repositório em sua conta.
-
-##### 2. Criação do Codespace
-
-- No seu fork do repositório, clique no botão verde "Code".
-- Selecione a aba "Codespaces".
-- Clique em "Create codespace on main" para criar um novo ambiente de desenvolvimento.
-
-##### 3. Configuração do Ambiente Java
-
-- O Codespace será iniciado com as configurações Java predefinidas.
-- Aguarde a conclusão da configuração automática do ambiente.
-
-##### 4. Teste do Ambiente
-
-- No explorador de arquivos do Codespace, crie um novo arquivo chamado `HelloWorld.java`.
-- Copie e cole o seguinte código:
-
-```java
-public class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, GitHub Codespaces!");
-    }
-}
+```
+continente;país;cidade;latitude;longitude;população
 ```
 
-- Para compilar e executar o programa, você tem duas opções:
-- Use o botão "Run" (▶️) no Codespace para compilar e executar diretamente.
-- Ou use os seguintes comandos no terminal:
+Além disso, a aplicação permite a utilização de filtros opcionais, definidos por argumentos de linha de comando, para restringir o conjunto de cidades analisadas por continente, país ou população.
+
+Ao final da execução, o programa exibe quais são as duas cidades mais distantes entre si, bem como a distância calculada em quilômetros. Caso não existam cidades suficientes após a aplicação dos filtros, uma mensagem de erro apropriada é exibida.
+
+---
+
+## Regras e Funcionalidades Implementadas
+
+A aplicação implementa corretamente todos os requisitos do **Desafio 2**, incluindo:
+
+- Leitura de dados via *stdin* utilizando `BufferedReader`;
+- Armazenamento das informações das cidades em listas paralelas;
+- Aplicação de filtros opcionais:
+  - `C <continente>` – filtra por continente;
+  - `P <país>` – filtra por país;
+  - `+ <população>` – considera apenas cidades com população maior ou igual ao valor informado;
+  - `- <população>` – considera apenas cidades com população menor ou igual ao valor informado;
+- Cálculo da distância entre todas as combinações possíveis de cidades filtradas;
+- Determinação do maior valor de distância encontrado;
+- Tratamento de erros para casos onde não há cidades suficientes para comparação.
+
+---
+
+## Instruções de Execução
+
+### 3.1 Compilação
 
 ```bash
-javac HelloWorld.java
-java HelloWorld
+javac Distancias.java
 ```
-ou (quando várias classes em arquivos distintos)
+
+### 3.2 Execução sem filtros
+
 ```bash
-javac *.java
-java HelloWorld
+java Distancias < cidades.csv
 ```
----
-#### 🧰🛠️ Ajuste caso necessário
 
-- Atualizar os pacotes
+### 3.3 Execução com filtros
+
 ```bash
-sudo apt update
-#Instalar OpenJDK 17 (versão LTS recomendada)
-sudo apt install openjdk-17-jdk -y
-#Verificar se foi instalado corretamente
-java -version
-javac -version
-echo $JAVA_HOME
+java Distancias C Europa < cidades.csv
+java Distancias P Brazil < cidades.csv
+java Distancias + 1000000 < cidades.csv
+java Distancias - 500000 < cidades.csv
 ```
-- Em caso de Recuperation mode: Comandos básicos de diagnostico
-```bash
-# Verificar status dos serviços
-sudo systemctl status
 
-# Verificar espaço em disco
-df -h
+**Observação:** Falando especificamente da nossa versão do código, os filtros podem ser combinados, e apenas as cidades que atenderem a todos os critérios serão consideradas.
 
-# Verificar uso de memória
-free -h
+---
 
-# Verificar processos em execução
-ps aux
+## Exemplo de Execução Real
 
-# Verificar logs do sistema
-sudo journalctl -f
-```
-- Em caso de Recuperation mode: Comandos de recuperação comuns
-```bash
-# Reiniciar serviços do VS Code
-sudo systemctl restart code-server
+```text
+lucas.grohe@serverdoin:~$ java Distancias < Dados.csv
+Maior distância: Machachi (Ecuador) <-> Pekanbaru (Indonesia) = 20035.78 km
 
-# Limpar cache do npm (se usando Node.js)
-npm cache clean --force
+lucas.grohe@serverdoin:~$ java Distancias P Brazil < Dados.csv
+Maior distância: Boa Vista (Brazil) <-> Pelotas (Brazil) = 3950.25 km
 
-# Limpar arquivos temporários
-sudo apt clean
-sudo apt autoremove
+lucas.grohe@serverdoin:~$ java Distancias C África < Dados.csv
+Maior distância: Gueznaia (Morocco) <-> Tôlan̈aro (Madagascar) = 8754.42 km
 
-# Resetar permissões do workspace
-sudo chown -R $(whoami):$(whoami) /workspaces
-
-# Verificar e reparar sistema de arquivos
-sudo fsck -f /dev/sda1
-```
-- Em caso de Recuperation mode: Para problemas específicos
-```bash
-# Ctrl + C para cancelar processo atual
-# Ctrl + Z para suspender processo
-# Ctrl + D para sair do shell atual
-```
-- Em caso de Recuperation mode: Se há problemas de rede
-```bash
-# Testar conectividade
-ping google.com
-
-# Reiniciar serviços de rede
-sudo systemctl restart systemd-networkd
-```
-- Em caso de Recuperation mode: Recovery mode completo
-```bash
-# Modo de emergência - usar apenas se necessário
-sudo systemctl rescue
-
-# Para sair do modo de emergência
-sudo systemctl default
+lucas.grohe@serverdoin:~$ java Distancias P Brazil + 1000000 < Dados.csv
+Maior distância: Fortaleza (Brazil) <-> Porto Alegre (Brazil) = 3219.28 km
 ```
 
 ---
 
-#### Estrutura do Repositório
+## Representação Algorítmica (Pseudocódigo)
 
-- Contém os arquivos fonte (.java) dos projetos e exemplos.
+### Variáveis
 
----
-
-#### Cheat sheet de git no terminal
-
-- ```git add .``` ou ```git add file.java```
-- ```git status```
-- ```git commit -m "add versao x"```
-- ```git push -u origin main```
-
----
-
-#### Recursos Adicionais
-
-- [Documentação Oracle Java](https://dev.java/learn/)
-- [Documentação Oracle Java Language Specification](https://docs.oracle.com/javase/specs/jls/se22/jls22.pdf)
-- [Java Cheat Sheet](https://introcs.cs.princeton.edu/java/11cheatsheet/)
-- [GitHub Codespaces Documentation](https://docs.github.com/en/codespaces)
-
----
-
-#### Contribuindo
-
-Sinta-se à vontade para contribuir com este repositório! Você pode:
-
-- Abrir ```issues``` para reportar problemas ou sugerir melhorias.
-- Submeter ```pull requests``` com novos exemplos ou correções.
-- Melhorar a documentação existente.
-- Ou entrar em contato ```ramon.mayor at: ifsc.edu.br```
-
----
-
-#### 🧰 Mantenedor
 ```
-Prof. Dr. Ramon Mayor Martins
-Professor do IFSC - Campus São José
-Áreas: Programação, Algoritmos e Estruturas de Dados
-[Website Pessoal](https://rmayormartins.github.io/)
+args: vetor de texto
+
+checkingContinent, checkingCountry: lógico
+checkingMoreThanPop, checkingLessThanPop: lógico
+
+paramContinent, paramCountry: texto
+paramMoreThanPop, paramLessThanPop: inteiro
+
+continents, countries, cities: lista de texto
+lats, lons: lista de real
+pops: lista de inteiro
+
+linha: texto
+colunas: vetor de texto
+
+maiorDistancia: real
+indexCity1, indexCity2: inteiro
+
+i, j: inteiro
+dist: real
 ```
+
+### Algoritmo Principal
+
+```
+Início
+    checkingContinent = falso
+    checkingCountry = falso
+    checkingMoreThanPop = falso
+    checkingLessThanPop = falso
+
+    // Leitura das flags
+    i = 0
+    Enquanto i < tamanho(args) faça
+        Se i + 1 < tamanho(args) então
+            Se args[i] = "C" então
+                checkingContinent = verdadeiro
+                paramContinent = args[i + 1]
+            Senão se args[i] = "P" então
+                checkingCountry = verdadeiro
+                paramCountry = args[i + 1]
+            Senão se args[i] = "+" então
+                checkingMoreThanPop = verdadeiro
+                paramMoreThanPop = inteiro(args[i + 1])
+            Senão se args[i] = "-" então
+                checkingLessThanPop = verdadeiro
+                paramLessThanPop = inteiro(args[i + 1])
+            Senão
+                Escreva "[ERRO] Flag desconhecida"
+            FimSe
+            i = i + 2
+        Senão
+            Escreva "[ERRO] Flag sem parâmetro"
+            i = i + 1
+        FimSe
+    FimEnquanto
+
+    // Inicialização das listas
+    continents = lista vazia
+    countries = lista vazia
+    cities = lista vazia
+    lats = lista vazia
+    lons = lista vazia
+    pops = lista vazia
+
+    // Leitura do CSV
+    Enquanto houver linha para ler faça
+        Leia linha
+        colunas = dividir(linha, ";")
+
+        Se tamanho(colunas) ≠ 6 então
+            continue
+        FimSe
+
+        continent = colunas[0]
+        country = colunas[1]
+        city = colunas[2]
+        lat = real(colunas[3])
+        lon = real(colunas[4])
+        pop = inteiro(colunas[5])
+
+        // Aplicação dos filtros
+        Se checkingContinent e continent ≠ paramContinent então continue
+        Se checkingCountry e country ≠ paramCountry então continue
+        Se checkingMoreThanPop e pop < paramMoreThanPop então continue
+        Se checkingLessThanPop e pop > paramLessThanPop então continue
+
+        Adicione continent em continents
+        Adicione country em countries
+        Adicione city em cities
+        Adicione lat em lats
+        Adicione lon em lons
+        Adicione pop em pops
+    FimEnquanto
+
+    // Cálculo da maior distância
+    maiorDistancia = 0
+    indexCity1 = -1
+    indexCity2 = -1
+
+    Para i de 0 até tamanho(cities) - 1 faça
+        Para j de i + 1 até tamanho(cities) - 1 faça
+            dist = distanciaViaHaverseno(
+                   lats[i], lons[i],
+                   lats[j], lons[j])
+
+            Se dist > maiorDistancia então
+                maiorDistancia = dist
+                indexCity1 = i
+                indexCity2 = j
+            FimSe
+        FimPara
+    FimPara
+
+    // Saída final
+    Se indexCity1 ≠ -1 então
+        Escreva "Maior distância: ",
+                 cities[indexCity1], " (", countries[indexCity1], ") <-> ",
+                 cities[indexCity2], " (", countries[indexCity2], ") = ",
+                 maiorDistancia, " km"
+    Senão
+        Escreva "[ERRO] Nenhuma cidade encontrada após aplicação dos filtros."
+    FimSe
+Fim
+```
+
+### Função distanciaViaHaverseno
+
+```
+Função distanciaViaHaverseno(lat1, lon1, lat2, lon2): real
+    RAIO_TERRESTRE = 6378.13
+
+    lat1Rad = radianos(lat1)
+    lon1Rad = radianos(lon1)
+    lat2Rad = radianos(lat2)
+    lon2Rad = radianos(lon2)
+
+    Retorne 2 * RAIO_TERRESTRE *
+            arcseno( raiz(
+              sen²((lat2Rad - lat1Rad)/2) +
+              cos(lat1Rad) * cos(lat2Rad) *
+              sen²((lon2Rad - lon1Rad)/2)
+            ))
+FimFunção
+```
+
 ---
 
-#### 📝 Licença
+## Decisões de Projeto e Comentários Importantes
 
-Este repositório e seus projetos estão sob licença específica. Consulte cada projeto individual para mais detalhes.
+- **Uso de listas paralelas:** Optou-se pelo uso de `ArrayList` separados para cada atributo (cidade, país, latitude, longitude etc.) por simplicidade e clareza, seguindo os princípios de programação estruturada abordados na disciplina.
+- **Equação de Haverseno:** A fórmula foi implementada em um método separado (`distanciaViaHaverseno`), promovendo reutilização de código e melhor organização.
+- **Tratamento de erros:** Foram implementadas validações para flags inválidas, parâmetros ausentes e casos onde o conjunto filtrado não contém cidades suficientes para formar um par.
 
 ---
-<div align="center">
-  
-#### IFSC-Codespace-ENG-ADS-JAVA-POO
 
-</div>
+## Conclusão
 
+A solução demonstra o uso correto de estruturas de repetição, leitura de dados via redirecionamento, validação de entradas, aplicação de filtros e implementação de um algoritmo matemático real (Equação de Haverseno).
 
+O projeto contribuiu para o aprofundamento do pensamento computacional, organização algorítmica e prática com a linguagem Java, consolidando os conteúdos abordados ao longo da disciplina.
